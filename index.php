@@ -32,10 +32,9 @@
      */
     function prepareDeliveryData ($fulfillment)
     {
-        return array(
+        $data = array(
             'payment_id' => $fulfillment['order_id'],
             'merchant_reference_id' => $fulfillment['order_id'],
-            'type' => 'physical',
             'status' => 'delivered',
             'estimated_delivery_datetime' => $fulfillment['created_at'],
             'estimated_update_datetime' => $fulfillment['updated_at'],
@@ -55,6 +54,14 @@
             'carrier_trackind_id' => $fulfillment['tracking_number'],
             'is_test' => 1
         );
+        
+        if(!empty($fulfillment['destination'])) {
+            $data['type'] = 'physical';
+        } else {
+            $data['type'] = 'digital';
+        }
+
+        return $data;
     }
 
 ?>
